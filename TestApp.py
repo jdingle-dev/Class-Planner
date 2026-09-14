@@ -12,7 +12,7 @@ class CourseSchedulerApp:
         # Database connection setup
         self.conn = sqlite3.connect("scheduler_gui.db")
         self.conn.execute("PRAGMA foreign_keys = ON;")
-        messagebox.showinfo("CURRICULUM GUIDES", "https://www.ncat.edu/provost/academic-affairs/curriculum-guides/")
+        messagebox.showinfo("Curriculum Guides", "https://www.ncat.edu/provost/academic-affairs/curriculum-guides/")
         self.create_tables()
 
         # Build GUI layout
