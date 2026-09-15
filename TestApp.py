@@ -316,20 +316,28 @@ class CourseSchedulerApp:
             return
 
         
-        cursor.execute(f"DELETE FROM courses WHERE code = '{code}';")
-        cursor.execute(f"DELETE FROM course_schedules WHERE course_code = '{code}';")
-        cursor.execute(f"DELETE FROM prerequisites WHERE course_code = '{code}';")
-        cursor.execute(f"DELETE FROM student_progress WHERE course_code = '{code}';")
+        cursor.execute("DELETE FROM courses WHERE code = ?", (code,))
+        cursor.execute(f"DELETE FROM course_schedules WHERE course_code = ?", (code,))
+        cursor.execute(f"DELETE FROM prerequisites WHERE course_code = ?", (code,))
+        cursor.execute(f"DELETE FROM student_progress WHERE course_code = ?", (code,))
+
+        self.entry_del_code.delete(0, tk.END)
         self.conn.commit()
+        messagebox.showinfo("Sucess", f"Course {code} is deleted!")
                 
     def delete_all(self):
-            cursor = self.conn.cursor()
-            
-            cursor.execute(f"DELETE FROM courses")
-            cursor.execute(f"DELETE FROM course_schedules")
-            cursor.execute(f"DELETE FROM prerequisites")
-            cursor.execute(f"DELETE FROM student_progress")
-            self.conn.commit()
+            if messagebox.askyesno(
+                "Confirm Delete",
+                "Are you sure you want to delete all courses and schedules?",
+            ):
+                cursor = self.conn.cursor()
+                
+                cursor.execute(f"DELETE FROM courses")
+                cursor.execute(f"DELETE FROM course_schedules")
+                cursor.execute(f"DELETE FROM prerequisites")
+                cursor.execute(f"DELETE FROM student_progress")
+                self.conn.commit()
+                messagebox.showinfo("Sucess", "Schedule is deleted!")
                     
 
 
